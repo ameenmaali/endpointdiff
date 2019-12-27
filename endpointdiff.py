@@ -12,14 +12,8 @@ def get_endpoints(url, cookies, regex):
 
 
 def get_diff(old_endpoints, new_endpoints):
-    removed, added = [], []
-    for endpoint in old_endpoints:
-        if endpoint not in new_endpoints:
-            removed.append(endpoint)
-
-    for endpoint in new_endpoints:
-        if endpoint not in old_endpoints:
-            added.append(endpoint)
+    removed = [endpoint for endpoint in old_endpoints if endpoint not in new_endpoints]
+    added = [endpoint for endpoint in new_endpoints if endpoint not in old_endpoints]
 
     return removed, added
 
@@ -30,7 +24,7 @@ if __name__ == "__main__":
     parser.add_argument("-n", "--new",
                         help="Input a new: URL, file or folder. \
                         For folders a wildcard can be used (e.g. '/*.js').",
-                        action="store")
+                        required=True, action="store")
     parser.add_argument("-o", "--old",
                         help="Input an old: URL, file or folder. \
                         For folders a wildcard can be used (e.g. '/*.js').",
